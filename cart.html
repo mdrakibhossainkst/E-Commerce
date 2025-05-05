@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>কার্ট - ইকমার্স সাইট</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <a href="index.html">ইকমার্স</a>
+        </div>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="index.html">হোম</a></li>
+            <li><a href="products.html">পণ্যসমূহ</a></li>
+          </ul>
+        </nav>
+        <div class="header-actions">
+          <a href="cart.html" class="cart-icon active">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count">0</span>
+          </a>
+          <button class="mobile-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu">
+    <ul>
+      <li><a href="index.html">হোম</a></li>
+      <li><a href="products.html">পণ্যসমূহ</a></li>
+      <li><a href="cart.html">কার্ট</a></li>
+    </ul>
+  </div>
+
+  <main>
+    <section class="cart-section">
+      <div class="container">
+        <h1>আপনার কার্ট</h1>
+        
+        <div class="cart-container" id="cart-container">
+          <!-- Cart items will be loaded here via JavaScript -->
+        </div>
+        
+        <div class="empty-cart" id="empty-cart" style="display: none;">
+          <p>আপনার কার্টে কোনো পণ্য নেই</p>
+          <a href="products.html" class="btn primary-btn">কেনাকাটা শুরু করুন</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="current-year"></span> ইকমার্স সাইট। সর্বস্বত্ব সংরক্ষিত।</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast">
+    <div class="toast-content">
+      <div class="toast-title"></div>
+      <div class="toast-message"></div>
+    </div>
+  </div>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      renderCart();
+      
+      // Set current year in footer
+      document.getElementById('current-year').textContent = new Date().getFullYear();
+    });
+    
+    function renderCart() {
+      const cartContainer = document.getElementById('cart-container');
+      const emptyCart = document.getElementById('empty-cart');
+      const cart = getCart();
+      
+      if (cart.length === 0) {
+        cartContainer.style.display = 'none';
+        emptyCart.style.display = 'block';
+        return;
+      }
+      
+      cartContainer.style.display = 'block';
+      emptyCart.style.display = 'none';
+      
+      // Calculate totals
+      const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+      const shipping = subtotal > 0 ? 60 : 0;
+      const total = subtotal + shipping;
+      
+      // Generate HTML
+      let cartHTML = `
+        <div class="cart-grid">
+          <div class="cart-items">
+      `;
+      
+      cart.forEach(item => {
+        cartHTML += `
+          <div class="cart-item">
+            <div class="cart-item-image">
+              <img src="${item.image}" alt="${item.name}">
+            </div>
+            <div class="cart-item-details">
+              <h3>${item.name}</h3>
+              <p class="item-price">৳${item.price}</p>
+              <div class="item-quantity">
+                <button class="quantity-btn minus" onclick="updateItemQuantity('${item.id}', ${Math.max(1, item.quantity - 1)})">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <span>${item.quantity}</span>
+                <button class="quantity-btn plus" onclick="updateItemQuantity('${item.id}', ${item.quantity + 1})">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="cart-item-actions">
+              <p class="item-total">৳${item.price * item.quantity}</p>
+              <button class="remove-item" onclick="removeFromCart('${item.id}')">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      });
+      
+      cartHTML += `
+          </div>
+          <div class="cart-summary">
+            <div class="summary-card">
+              <h2>অর্ডার সারাংশ</h2>
+              <div class="summary-row">
+                <span>সাবটোটাল</span>
+                <span>৳${subtotal}</span>
+              </div>
+              <div class="summary-row">
+                <span>শিপিং</span>
+                <span>৳${shipping}</span>
+              </div>
+              <div class="summary-row total">
+                <span>মোট</span>
+                <span>৳${total}</span>
+              </div>
+              <button class="btn primary-btn checkout-btn" onclick="window.location.href='checkout.html'">
+                চেকআউট করুন
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      cartContainer.innerHTML = cartHTML;
+      updateCartCount();
+    }
+    
+    function updateItemQuantity(id, quantity) {
+      const cart = getCart();
+      const itemIndex = cart.findIndex(item => item.id === id);
+      
+      if (itemIndex !== -1) {
+        cart[itemIndex].quantity = quantity;
+        saveCart(cart);
+        renderCart();
+      }
+    }
+    
+    function removeFromCart(id) {
+      const cart = getCart().filter(item => item.id !== id);
+      saveCart(cart);
+      showToast('পণ্য সরানো হয়েছে', 'পণ্যটি আপনার কার্ট থেকে সরানো হয়েছে');
+      renderCart();
+    }
+  </script>
+</body>
+</html>

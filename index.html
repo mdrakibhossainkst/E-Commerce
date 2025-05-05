@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ইকমার্স সাইট</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <a href="index.html">ইকমার্স</a>
+        </div>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="index.html">হোম</a></li>
+            <li><a href="products.html">পণ্যসমূহ</a></li>
+          </ul>
+        </nav>
+        <div class="header-actions">
+          <a href="cart.html" class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count">0</span>
+          </a>
+          <button class="mobile-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu">
+    <ul>
+      <li><a href="index.html">হোম</a></li>
+      <li><a href="products.html">পণ্যসমূহ</a></li>
+      <li><a href="cart.html">কার্ট</a></li>
+    </ul>
+  </div>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>আমাদের ইকমার্স সাইট</h1>
+        <p>সেরা পণ্য, সেরা মূল্যে</p>
+        <a href="products.html" class="btn primary-btn">এখনই কেনাকাটা শুরু করুন</a>
+      </div>
+    </section>
+
+    <section class="featured-products">
+      <div class="container">
+        <h2>জনপ্রিয় পণ্য</h2>
+        <div class="product-grid" id="featured-products">
+          <!-- Products will be loaded here via JavaScript -->
+        </div>
+        <div class="text-center">
+          <a href="products.html" class="btn outline-btn">সব পণ্য দেখুন</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="container">
+        <h2>আমাদের সুবিধাসমূহ</h2>
+        <div class="features-grid">
+          <div class="feature">
+            <div class="feature-icon">
+              <i class="fas fa-truck"></i>
+            </div>
+            <h3>দ্রুত ডেলিভারি</h3>
+            <p>সারা দেশে ২৪-৭২ ঘন্টার মধ্যে ডেলিভারি</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <i class="fas fa-undo"></i>
+            </div>
+            <h3>সহজ রিটার্ন</h3>
+            <p>৭ দিনের মধ্যে যেকোনো পণ্য ফেরত দিন</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <i class="fas fa-lock"></i>
+            </div>
+            <h3>নিরাপদ পেমেন্ট</h3>
+            <p>ক্যাশ অন ডেলিভারি এবং অনলাইন পেমেন্ট</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="current-year"></span> ইকমার্স সাইট। সর্বস্বত্ব সংরক্ষিত।</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast">
+    <div class="toast-content">
+      <div class="toast-title"></div>
+      <div class="toast-message"></div>
+    </div>
+  </div>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // Load featured products
+    document.addEventListener('DOMContentLoaded', function() {
+      const featuredProductsContainer = document.getElementById('featured-products');
+      const featuredProducts = products.slice(0, 4);
+      
+      featuredProducts.forEach(product => {
+        const productCard = createProductCard(product);
+        featuredProductsContainer.appendChild(productCard);
+      });
+
+      // Update cart count
+      updateCartCount();
+      
+      // Set current year in footer
+      document.getElementById('current-year').textContent = new Date().getFullYear();
+    });
+  </script>
+</body>
+</html>

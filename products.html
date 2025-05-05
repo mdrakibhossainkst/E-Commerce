@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>পণ্যসমূহ - ইকমার্স সাইট</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <a href="index.html">ইকমার্স</a>
+        </div>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="index.html">হোম</a></li>
+            <li><a href="products.html" class="active">পণ্যসমূহ</a></li>
+          </ul>
+        </nav>
+        <div class="header-actions">
+          <a href="cart.html" class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count">0</span>
+          </a>
+          <button class="mobile-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu">
+    <ul>
+      <li><a href="index.html">হোম</a></li>
+      <li><a href="products.html">পণ্যসমূহ</a></li>
+      <li><a href="cart.html">কার্ট</a></li>
+    </ul>
+  </div>
+
+  <main>
+    <section class="products-section">
+      <div class="container">
+        <h1>সকল পণ্য</h1>
+        <div class="product-grid" id="all-products">
+          <!-- Products will be loaded here via JavaScript -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="current-year"></span> ইকমার্স সাইট। সর্বস্বত্ব সংরক্ষিত।</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast">
+    <div class="toast-content">
+      <div class="toast-title"></div>
+      <div class="toast-message"></div>
+    </div>
+  </div>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // Load all products
+    document.addEventListener('DOMContentLoaded', function() {
+      const productsContainer = document.getElementById('all-products');
+      
+      products.forEach(product => {
+        const productCard = createProductCard(product);
+        productsContainer.appendChild(productCard);
+      });
+
+      // Update cart count
+      updateCartCount();
+      
+      // Set current year in footer
+      document.getElementById('current-year').textContent = new Date().getFullYear();
+    });
+  </script>
+</body>
+</html>
