@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>পণ্য বিবরণ - ইকমার্স সাইট</title>
+  <link rel="icon" href="assets/favicon.png" type="image/png">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -12,8 +13,10 @@
     <div class="container">
       <div class="header-content">
         <div class="logo">
-          <a href="index.html">ইকমার্স</a>
-        </div>
+          <a href="index.html">
+            <img src="assets/ponnopur-logo.png" height="40">
+          </a>
+        </div> 
         <nav class="main-nav">
           <ul>
             <li><a href="index.html">হোম</a></li>
@@ -53,7 +56,7 @@
 
   <footer>
     <div class="container">
-      <p>&copy; <span id="current-year"></span> ইকমার্স সাইট। সর্বস্বত্ব সংরক্ষিত।</p>
+      <p>&copy; <span id="current-year"></span> পণ্যপুর। সর্বস্বত্ব সংরক্ষিত।</p>
     </div>
   </footer>
 
@@ -87,7 +90,7 @@
       }
       
       // Set page title
-      document.title = `${product.name} - ইকমার্স সাইট`;
+      document.title = `${product.name} - পণ্যপুর`;
       
       // Render product details
       const productDetailsContainer = document.getElementById('product-details');
